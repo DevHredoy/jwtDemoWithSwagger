@@ -34,6 +34,12 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
+
+    public static final String[] PUBLIC_PATHS = {"/api/auth/**",
+            "/v3/api-docs.yaml",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"};
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
@@ -80,6 +86,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers(PUBLIC_PATHS).permitAll()
                                 .anyRequest().authenticated()
                 );
 
